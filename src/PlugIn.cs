@@ -384,7 +384,10 @@ namespace Landis.Extension.DynamicFuels
             if(SiteVars.NumberDeadFirCohorts == null) // Is BDA even running?
                 return 0;
 
-            int minimumStartTime = System.Math.Max(0, SiteVars.TimeOfLastFire[site]);
+            int minimumStartTime = 0;
+            if(!(SiteVars.TimeOfLastFire == null))
+                minimumStartTime = System.Math.Max(0, SiteVars.TimeOfLastFire[site]);
+
             for(int i = minimumStartTime; i <= modelCore.CurrentTime; i++)
             {
                 if(modelCore.CurrentTime - i <= deadFirMaxAge)
