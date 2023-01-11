@@ -1,0 +1,58 @@
+LandisData	"Dynamic Fuel System"
+
+Timestep  10
+
+>> 		 Fuel 
+>> Species 	 Coefficient 
+>> -------- 	----------- 
+   abiesibi 	1.0
+   piceobov 	1.0
+   pinusylv 	1.0
+   pinusibi	1.0
+   larisibi 	1.0
+   betupend 	1.0
+   poputrem	1.0
+   groundveg	1.0
+   sphagnum	1.0
+   genegrss 	1.0
+   alnufrut 	1.0
+   salixspp	1.0
+
+HardwoodMaximum 25	<<cells with more than this % of hardwood will be put into a mixed fuel type
+
+>>DeadFirMinimum 10       <<cells with more than this % of dead fir will be put in deadconifer fuel type <<OBSOLETE PARAMETER???
+
+DeadFirMaxAge 30 <<BDA parameter; length of time insect-killed conifers persist as standing fuel. 30 yrs allows more BDA killed cells to burn over time (EJG)
+
+>>MixedFuelType  10		<<OBSOLETE PARAMETER???
+
+>>DeadConiferFuelType 12	<<OBSOLETE PARAMETER???
+
+FuelTypes
+>> Fuel Type 	BaseFuel	Age Range	Species			<<values per AZS
+>> ---------	---------	----------	----------
+>>      1	Conifer		50 to 380	piceobov		<<C1:lichen/spruce park-like forest
+      2		Conifer		1 to 300	abiesibi piceobov	<<C2: boreal spruce
+>>	3	Conifer		50 to 300	TBD			<<C3: mature jack or lodgepole pine      
+      4		Conifer		1 to 49 	pinusylv pinusibi larisibi	<<C4: immature pine, branches extend to ground and are likely to burn hot and fast
+      5		Conifer		50 to 380 	pinusylv larisibi	<<C5: mature Scots pine, relatively cool fires
+>>      6 	Conifer		1 to 80		TBD			<<C6: conifer plantation
+      7		Conifer		50 to 450 	pinusibi		<<C7: mature Russian pine (cedar)
+      8 	Deciduous	1 to 151	betupend poputrem alnufrut salixspp	<<D1: deciduous, broad-leaved (leafless aspen)
+>>      9 	Deciduous	50 to 380	sphagnum groundveg	<<D1: deciduous larch, slow-moving ground fires
+     17		Open		1 to 120	genegrss sphagnum groundveg	<<O1: grass
+>>WHAT ABOUT ALDER AND WILLOW??
+
+DisturbanceConversionTable
+>> FuelType    Duration (yr)	Prescription (more than one allowed)
+>> ----------   ---------	-----------------------			<<values per AZS
+	14	10		PineClearcut LarchClearcut IllegalClear	<<CFBP jack or lodgepole pine slash
+	15	10		SpruceClearcut FirClearcut 		<<CFBP spruce-fir slash
+	14	10		WindSeverity4 WindSeverity5		<<CFBP spruce-fir slash
+	18	10		DarkConiferSilkMoth
+	19	10		LightConiferSilkMoth
+
+
+MapFileNames		fire/FuelType-{timestep}.gis 
+PctConiferFileName   fire/PctConifer-{timestep}.gis
+PctDeadFirFileName   fire/PctDeadFir-{timestep}.gis

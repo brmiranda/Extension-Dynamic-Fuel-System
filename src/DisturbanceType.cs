@@ -34,8 +34,8 @@ namespace Landis.Extension.DynamicFuels
                 return fuelIndex;
             }
             set {
-                if (value <= 1 || value > 100)
-                    throw new InputValueException(value.ToString(),"Value must be > 1 and <= 100.");
+                if (value < 1 || value > 100)
+                    throw new InputValueException(value.ToString(),"Value must be between 1 and 100.");
                 fuelIndex = value;
             }
         }

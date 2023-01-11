@@ -87,8 +87,8 @@ namespace Landis.Extension.DynamicFuels
             modelCore.UI.WriteLine("  Calculating the Dynamic Fuel Type for all active cells...");
             foreach (ActiveSite site in modelCore.Landscape)
             {
-                CalcFuelType(site, fuelTypes, disturbanceTypes);
                 SiteVars.PercentDeadFir[site] = CalcPercentDeadFir(site);
+                CalcFuelType(site, fuelTypes, disturbanceTypes);               
             }
 
             string path = MapNames.ReplaceTemplateVars(mapNameTemplate, modelCore.CurrentTime);
@@ -201,6 +201,7 @@ namespace Landis.Extension.DynamicFuels
 
             int finalFuelType = 0;
             int decidFuelType = 0;
+            int firstDecidFuelType = 0;
             double maxValue = 0.0;
             double maxDecidValue = 0.0;
 
@@ -222,10 +223,18 @@ namespace Landis.Extension.DynamicFuels
                     }
 
                     //This is calculated for the mixed types:
-                    if ((ftype.BaseFuel == BaseFuelType.Deciduous)
-                        && forTypValue[ftype.FuelIndex] > 0)
+                    if (ftype.BaseFuel == BaseFuelType.Deciduous)
                     {
-                        sumDecid += forTypValue[ftype.FuelIndex];
+                        // flag the first listed D type to supply to M3/M4 if decidFuelType is empty
+                        if (firstDecidFuelType == 0)
+                        {
+                            firstDecidFuelType = ftype.FuelIndex;
+                            decidFuelType = ftype.FuelIndex;
+                        }
+                        if (forTypValue[ftype.FuelIndex] > 0)
+                        {
+                            sumDecid += forTypValue[ftype.FuelIndex];                           
+                        }
                     }
 
                     if(forTypValue[ftype.FuelIndex] > maxValue)
@@ -253,7 +262,7 @@ namespace Landis.Extension.DynamicFuels
 
                     if(ftype.FuelIndex == finalFuelType && ftype.BaseFuel == BaseFuelType.ConiferPlantation)
                     {
-                        decidFuelType = 0;
+                        decidFuelType = System.Math.Max(decidFuelType,firstDecidFuelType); // if decidFuelType = 0, provide first listed D type
                         sumConifer = 100;
                         sumDecid = 0;
                     }
@@ -266,6 +275,7 @@ namespace Landis.Extension.DynamicFuels
                         //decidFuelType = 0;
                         sumConifer = 0;
                         sumDecid = 0;
+                        decidFuelType = System.Math.Max(decidFuelType, firstDecidFuelType); // if decidFuelType = 0, provide first listed D type
                     }
 
             // an OPEN type
@@ -276,6 +286,7 @@ namespace Landis.Extension.DynamicFuels
                         //decidFuelType = 0;
                         sumConifer = 0;
                         sumDecid = 0;
+                        decidFuelType = System.Math.Max(decidFuelType, firstDecidFuelType); // if decidFuelType = 0, provide first listed D type
                     }
 
                 }
@@ -289,6 +300,7 @@ namespace Landis.Extension.DynamicFuels
                 {
                     coniferDominance = 100;
                     hardwoodDominance = 0;
+                    decidFuelType = System.Math.Max(decidFuelType, firstDecidFuelType); // if decidFuelType = 0, provide first listed D type
                 }
                 if (coniferDominance < hardwoodMax)
                 {
@@ -312,9 +324,10 @@ namespace Landis.Extension.DynamicFuels
                             if (SiteVars.HarvestPrescriptionName != null && SiteVars.HarvestPrescriptionName[site].Trim() == pName.Trim())
                             {
                                 finalFuelType = slash.FuelIndex; //Name;
-                                decidFuelType = 0;
-                                coniferDominance = 0;
+                            decidFuelType = System.Math.Max(decidFuelType, firstDecidFuelType); // if decidFuelType = 0, provide first listed D type
+                            coniferDominance = 0;
                                 hardwoodDominance = 0;
+                                SiteVars.PercentDeadFir[site] = 0;
                             }
                         }
                     }
@@ -332,9 +345,10 @@ namespace Landis.Extension.DynamicFuels
                                 if((pName.Substring((pName.Length - 1), 1)).ToString() == SiteVars.FireSeverity[site].ToString())
                                 {
                                     finalFuelType = slash.FuelIndex; //Name;
-                                    decidFuelType = 0;
+                                    decidFuelType = System.Math.Max(decidFuelType, firstDecidFuelType); // if decidFuelType = 0, provide first listed D type
                                     coniferDominance = 0;
                                     hardwoodDominance = 0;
+                                    SiteVars.PercentDeadFir[site] = 0;
                                 }
                             }
                         }
@@ -353,10 +367,30 @@ namespace Landis.Extension.DynamicFuels
                                 if ((pName.Substring((pName.Length - 1), 1)).ToString() == SiteVars.WindSeverity[site].ToString())
                                 {
                                     finalFuelType = slash.FuelIndex; //Name;
-                                    decidFuelType = 0;
+                                    decidFuelType = System.Math.Max(decidFuelType, firstDecidFuelType); // if decidFuelType = 0, provide first listed D type
                                     coniferDominance = 0;
                                     hardwoodDominance = 0;
+                                    SiteVars.PercentDeadFir[site] = 0;
                                 }
+                            }
+                        }
+                    }
+                }
+                // Check for BDA SilkMoth effects
+                if(SiteVars.BDASilkMothFuel != null && SiteVars.BDASilkMothFuel[site] != "")
+                {
+                    if(SiteVars.TimeOfLastBDA != null &&
+                        (modelCore.CurrentTime - SiteVars.TimeOfLastBDA[site] <= slash.MaxAge))
+                    {
+                        foreach (string pName in slash.PrescriptionNames)
+                        {
+                            if (SiteVars.BDASilkMothFuel[site] == pName)
+                            {
+                                finalFuelType = slash.FuelIndex; //Name;
+                                decidFuelType = System.Math.Max(decidFuelType, firstDecidFuelType); // if decidFuelType = 0, provide first listed D type
+                                coniferDominance = 0;
+                                hardwoodDominance = 0;
+                                SiteVars.PercentDeadFir[site] = 0;
                             }
                         }
                     }

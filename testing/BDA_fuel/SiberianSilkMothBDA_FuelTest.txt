@@ -1,0 +1,120 @@
+>>Siberian silk moth parameters for the BDA extension.  BDA runs with a 4-year time step, consistent with the 2-4 year duration of a given outbreak.
+>> This disturbance regime was developed through a combination of literature review and expert opinion by 
+LandisData "BDA Agent"
+
+BDAAgentName		Siberian-silk-moth
+BDPCalibrator	1																																																																																	
+SRDMode		mean
+>>StartYear 50
+>>EndYear   100
+
+>>------------------------------------
+>> BDA DISTURBANCE REGIME PARAMETERS
+>>------------------------------------
+
+>>-------- Regional Outbreak Inputs -------------
+OutbreakPattern		CyclicNormal	<<CyclicNormal or CyclicUniform 
+>> eventually seeking: Outbreaks occur every 15-30 years; Kondakov 1974
+Mean			1 << Make this chronic to start  
+StDev			0
+TimeSinceLastEpidemic	1		<<years
+TemporalType 		pulse	<<pulse or variablepulse
+MinROS			0
+MaxROS			3
+
+>> NOTE: Kharuk et al. 2020 (and expert opinion) suggest mean outbreak frequency is closer to 11 years.  
+>> As a preferable alternative, we are looking into options to make outbreaks driven by climate - a combination of temperature isoclines and SPEI
+>>    - SPEI (Standardised Precipitation-Evapotranspiration Index) : https://spei.csic.es/
+
+
+>>-------- Dispersal Inputs ----------------------
+Dispersal		yes	<<yes or no  NOTE: APPLY THIS OPTION IF THE OUTBREAK DOES NOT AFFECT ALL AVAILABLE HOST IN A GIVEN OUTBREAK (I.E., SPATIALLY RESTRICTED)
+DispersalRate	1200	<<meters/year (mid point of 300-1200m range of Kharuk et al. 2016)																																																																																	
+EpidemicThresh	0.2	<< High value (close to 1) under the assumption that outbreaks initiate in areas with high concentrations of primary host.																																																																																	
+InitialEpicenterNum	1	<< remaining parameters to be calibrated depending on relative extent of outbreak																																																																																	
+OutbreakEpicenterCoeff	0.5
+OutbreakEpicenterThresh  3
+SeedEpicenter	yes	<< yes or no
+SeedEpicenterMax	500																																																																																	
+SeedEpicenterCoeff	0.2																																																																																	
+DispersalTemplate	12N	<<MaxRadius, 4N, 8N, 12N, or 24N << Maximize resistance to spread for irregular patterns...but will have to investigate behavior																																																																																	
+
+>>-------- Neighborhood Resource Inputs -----------
+NeighborFlag	yes	<<yes or no  (Using Parameters of Gustafson et al. 2010 as a starting point; see above point on importance of host concentration)
+NeighborSpeedUp	none	<<none, 2x, 3x, or 4x
+NeighborRadius	250	<<meters
+NeighborShape	uniform	<<uniform, linear, or gaussian
+NeighborWeight	1.0	<<0.01 - 100.0; 1 = site and neighborhood have same weight
+
+>>-- Intensity Class Thresholds --  
+>>IntensityClass1_BDP 	0.0 -- Hardwired value
+IntensityClass2_BDP 	0.30 << Based on the observation that mortality is rare if composition of host is < 30%
+IntensityClass3_BDP 	0.50
+
+>>EcoregionModifiers   (Consider applying if topography an important driver - within our study area)
+>>Ecoregion	Modifier
+
+
+>>DisturbanceModifiers (None to our knowledge)
+>>Type	Duration	Value
+
+ClimateModifiers
+>> Variable	Source	Threshold	Months	Aggregation	LagYears	Modifier
+>>SPEI		Library	<0		5-6	Average		1		0.5
+>>temp		Library	>6		8	Average		0		-99.0
+
+
+>>-------------------------
+>> BDA SEVERITY PARAMETERS
+>>--------------------------
+>> 
+BDASpeciesParameters
+
+>> NOTE: LOTS OF GOOD RESEARCH ON SPECIES-LEVEL ON THE SPECIES LEVEL TO REFINE WHAT IS BELOW, BUT LESS INFORMATION ON AGE-SPECIFIC PREFERENCE AND SUSCEPTIBILITY PATTERNS.
+>> HostPreference ages are the minimum age when species will function as a host at different levels of preference.
+>> We assume the "Appropriateness Index" will scale with Site Resource Dominance Probability associated with the species, rescaled between the best host (Larch = 1) to the worst host (Scot's Pine = 0.1)
+
+>> See: Kirichenko NI and Baranchikov YN. 2007. Appropriateness of needles of different conifer species for the feeding and growth of larvae from two populations of the Siberian moth. Russ J Ecol 38: 198–203.
+
+>> We assume younger age classes offer less foliage, and therefore decrease accordingly (e.g., Minor & 2nd Host are 0.25 and 0.5 of the Primary age class for the species.  
+>> Susceptibility age is the minimum age when species will be killed by outbreak of the severity class
+
+>> Expert Opinion (Kharuk) is once defolation occurs, all age classes are affected.  So vulnerability is standardized so all age classes are equally susceptible. 
+
+>> Exception is the additional synergistic effect of boring insects - there is a size threshold for fir (dbh = 16cm) vulnerable to boring insects.  
+>> primary impacts to fir (both beetles) with some impacts to spruce by the native wood borer.
+
+>> Larch requires 2 years severe defoliation to kill. 
+ 
+>> Baseline susceptibility = 0.7.  Larch susceptibility is half that (0.35) reflecting above difference in its ability to survive a single year of defoliation.
+>> Assumed age at which spruce or fir reach 16cm DBH is 40 years.
+>> Above that age threshold, susceptibility of fir increases to 1.0 to reflect beetle-enhanced mortality by two species.  Spruce increases to 0.85 to reflect beetle-enhanced mortality from one species.
+>> Scots pine assumed to have less susceptibilty since survival of larvae is diminished
+  
+>> 
+
+>>              HostPreference                                  Host Susceptibility  
+>>Species  	MinorHost    2ndHost       MajorHost    	Class3        Class2        Class1	    CFS
+>>Name     	Age SRDProb  Age SRDProb   Age SRDProb  	Age VulnProb  Age VulnProb  Age VulnProb  Conifer?
+>> ------------------------------------------------------------------------------------------------------------------
+abiesibi  	20   0.21	40  0.42   80  0.85	  	0    0.7	40  1.0	     40  1.0		dark
+larisibi    	20   0.25	40  0.5    80  1.0		0    0.35	0   0.35     0  0.35		light
+piceobov   	20   0.12	40  0.25   80  0.5	  	0    0.7	40  0.85     40 0.85		dark
+pinusibi    	20   0.2	40  0.4    80  0.8 		0    0.7	0   0.7      0  0.7		dark
+pinusylv   	20   0.02	40  0.05   80  0.1	  	0    0.25	0   0.25     0  0.25		light
+
+>> The above strategy for host preference and susceptibility were reviewed by Slava Kharuk in March/April 2021. 
+>> Final Parameters and behavior of the extension should be re-evaluated by Kharuk and Anatoly.
+	
+IgnoredSpecies 
+alnufrut
+betunana
+genegrass
+groundveg
+salixspp
+sphagnum
+
+
+>> primary critique from Anatoly is that the duration of the outbreak matters a great deal - specifically for larch.  if the outbreak is interrupted after only a year of extensive larch damage, all larch survive.
+>> We may want to modify the code to define duration as part of spread.
+

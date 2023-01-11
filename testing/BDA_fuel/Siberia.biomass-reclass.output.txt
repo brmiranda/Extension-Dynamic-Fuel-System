@@ -1,0 +1,57 @@
+LandisData  "Output Biomass Reclass"
+
+Timestep   10
+
+ReclassMaps
+
+>> Map Name	Forest Type	Species	
+>> --------	-------------	-------
+>>Plant Functional Types for comparison with CLM-FATES vegetation outputs
+ PFTs ->	NeedleleafEvrgr	abiesibi piceobov pinusibi pinusylv <<Use intuitive map names; they will be pasted into map file names; output folder will have hundreds of maps, so it helps to have intitive names
+		NeedleleafDecid	larisibi 					<<Forest Type names are not really used except in this file; I like to keep them short
+		BroadleafDecid	poputrem betupend
+		BroadlfDecShrub	betunana alnufrut salixspp	<<sphagnum not included as PFT <<alnuglut 
+		C3CoolGrass	genegrss
+		Moss		sphagnum groundveg <<-abiesibi -piceobov -pinusibi 
+
+>>This map may be deemed unnecessary and commented out
+ DominantSpp ->	Pine		pinusylv 
+		Spruce		piceobov
+		Fir		abiesibi
+		Larch		larisibi
+		AspenBirch	poputrem betupend
+		Kedar		pinusibi
+		DecidWet	alnufrut salixspp <<alnuglut 
+		Shrub		betunana 
+		Moss		groundveg <<-abiesibi -piceobov -pinusibi 
+		Sphagnum	sphagnum 
+		Grassland	genegrss
+>>		ConifWet	sphagnum pinusibi 
+
+ RussianType ->	DarkConif	abiesibi piceobov pinusibi
+		Deciduous	poputrem betupend
+		WetlandForest	alnufrut salixspp sphagnum	<<alnuglut
+		TundraShrub	betunana
+		LightConif	pinusylv larisibi 
+		Steppe		genegrss
+		Moss		sphagnum groundveg <<-abiesibi -piceobov -pinusibi 
+
+>>To generate a map of IC forest types needed to produce values for the Harvest Implementation Tables
+ HarvestType ->	Pine		pinusylv 	<<There is a harvest Rx targested to each type listed here (except non-timber)
+		Spruce		piceobov
+		Fir		abiesibi
+		Larch		larisibi
+		AspenBirch	poputrem betupend
+		Kedar		pinusibi
+		NonTimber	betunana alnufrut salixspp genegrss sphagnum groundveg	<<alnuglut
+
+FireStrategy -> Resisters	larisibi pinusylv
+		Avoiders	abiesibi piceobov pinusibi sphagnum 
+		Endurers	betupend poputrem genegrss
+		ShrubEndur	betunana alnufrut salixspp 
+		GroundEndur	groundveg 	<<groundveg could be added to ShrubEndur instead
+
+MapFileNames   output/reclass/{reclass-map-name}-{timestep}.img	<<output is folder name used by other output extensions; reduced length of map filenames-include only non-redundant info
+
+
+

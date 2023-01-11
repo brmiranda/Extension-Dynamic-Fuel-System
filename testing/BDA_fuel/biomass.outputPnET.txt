@@ -1,0 +1,61 @@
+LandisData  "Output-PnET"
+
+Timestep  10
+
+Species	All <<none 
+>>	     abiesibi
+>>   	     piceobov
+>>           pinusibi
+>>           larisibi
+>>           pinusylv
+>>           betupend
+>>           poputrem
+>>           sphagnum
+>>           betunana
+>>>>           pinupumi
+>>           alnufrut
+>>	     salixspp
+>>           genegrss
+>>           betupend
+>>	     groundveg
+
+	  
+>>Wood-RootBiomass 	output/biomass/{species}/Wood-Root_{timestep}.img	<<units (gDW)
+>>Wood-FoliageBiomass 	output/biomass/{species}/Wood-Foliage_{timestep}.img	<<units (gDW)
+WoodBiomass 		output/biomass/{species}/Wood_{timestep}.img		<<units (gDW)
+>>RootBiomass		output/biomass/{species}/Root_{timestep}.img		<<units (gDW)
+>>FoliageBiomass 	output/biomass/{species}/Foliage_{timestep}.img		<<units (gDW)
+>>NSC			output/biomass/{species}/NSC_{timestep}.img		<<Units: (gC)
+
+LeafAreaIndex  output/LeafAreaIndex/LAI_{timestep}.img				<</{species} ??
+
+CohortsPerSpecies output/CohortCount/CohortsPerSpp-{timestep}.img		<</{species}
+Establishment output/Establishments/{species}/Estab_{timestep}.img
+EstablishmentProbability output/EstablishProb/{species}/Pest_{timestep}.img
+
+>>AETAvg output/AETAvg/AET-{timestep}.img	
+>>PET output/PET/PET-{timestep}.img	
+
+>>Water output/SoilWater/water_{timestep}.img
+
+>>SubCanopyPAR output/SCpar/SCpar-{timestep}.img
+
+>>BelowgroundMapNames output/BGB/BGB-{timestep}.img
+
+>>WoodyDebrisMapNames output/WoodyDebris/WoodyDebris-{timestep}.img
+
+>>LitterMapNames	output/NonWoodyDebris/Litter-{timestep}.img
+
+AgeDistribution	output/AgeDistr/AgeDistr-{timestep}.img	
+
+AnnualPsn output/AnnualPsn/AnnualPsn_{timestep}.img
+>>MonthlyNetPsn output/MonthlyNetPsn/MonthlyPsn_{timestep}.img
+
+Albedo output/Albedo/MonthlyAlbedo_{timestep}.img
+
+MonthlyActiveLayerDepth output/MonthlyActiveLayerDepth/MonthlyActiveLayerDepth_{timestep}.img
+>>MonthlyFrostDepth output/MonthlyFrostDepth/MonthlyFrostDepth_{timestep}.img
+
+CohortBalance		output/CohortTotals.txt
+EstablishmentTable	output/EstablishTable.txt
+MortalityTable		output/MortalityTable.txt

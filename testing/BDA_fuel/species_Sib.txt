@@ -1,0 +1,25 @@
+LandisData  Species
+
+>>                      Sexual    Shade  Fire  Seed Disperal Dist  Vegetative   Sprout Age  Post-Fire
+>> Name      Longevity  Maturity  Tol.   Tol.  Effective  Maximum  Reprod Prob  Min    Max   Regen
+>> ----      ---------  --------  -----  ----  ---------  -------  -----------  -----------  --------
+   abiesibi     180      40         4      1       300	    1500	0.0        0      0   none 	<<Siberian fir	
+   alnufrut	70	  10	    1	   2	  750	    2000	0.9	  20	 60   resprout	<<Green Alder?
+>>   alnuglut	70	  10	     1	    2	  300	    1750	0.9	  20	 70   resprout	<<Black Alder
+   betupend     120       10        1      2      750	    2500	0.5       20	120   resprout	<<White birch
+   betunana	120	  30	    1	   3	  600	    2500	0.9	  20	120   resprout	<<Dwarf birch
+   genegrss	120	   2	    1	   1	  600	     750	1.0	  10	120   resprout	<<generic grass; best guess
+   groundveg	200	   5	    4	   1	  uni	    2000	0.0	   0	  0   none	<<best guess; wind dispersed  200-EffDist
+   larisibi     300       12        1      5      450	    1750	0.0        0      0   none  	<<Siberian larch	<<sex mat 12; long 400-500 per Vidakovic
+   piceobov     220       25        4      2      450	    1700	0.0        0      0   none 	<<Siberian spruce 
+>>   pinupumi	200	  30	     1	    3	  120	    1000	0.0	   0	  0   none	<<Dwarf Siberian pine
+   pinusibi     280       35        3      3      300	    4000	0.0        0      0   none	<<Stone pine; Kedar
+   pinusylv     220       15        2      4      300	    2000	0.0        0      0   serotiny 	<<Scots pine  <<serotiny assures that pine will regenerate after fire
+>>   poputrem     80        7        2      1      240	     750	0.9       20	80   resprout	<<Eurasian Aspen
+   poputrem     100        7        2      1      600	    1500	0.9       20	100   resprout	<<Eurasian Aspen
+   salixspp	60	  10	    1	   1	  600	    1700	0.9	  20	 60   resprout	<<Willow
+   sphagnum	220	  20	    5      1	  600	    1000	0.8	  20	220   none <<peat moss; if a species is ubiquitous, then use 'uni' for dispersal; made up; wind dispersed? 200	    1000
+>>						lengthened dispersal distances: 6/23/2022
+
+
+   

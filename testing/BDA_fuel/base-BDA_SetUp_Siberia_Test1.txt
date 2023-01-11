@@ -1,0 +1,14 @@
+LandisData "Base BDA"
+Timestep	1
+>> --------------------------------------
+>> OUTPUTS
+>>-----------------------------------------
+MapNames	bda/1_1200_0.7_1_500_0.2_12N/{agentName}-{timestep}.gis
+SRDMapNames	bda/1_1200_0.7_1_500_0.2_12N/{agentName}-SRD-{timestep}.gis
+NRDMapNames	bda/1_1200_0.7_1_500_0.2_12N/{agentName}-NRD-{timestep}.gis
+BDPMapNames	bda/1_1200_0.7_1_500_0.2_12N/{agentName}-BDP-{timestep}.gis
+LogFile	bda/1_1200_0.7_1_500_0.2_12N/bda-log.csv
+>>-----------------
+>> REQUIRED INPUTS
+>>------------------
+BDAInputFiles	../SiberianSilkMothBDA_Test1.txt

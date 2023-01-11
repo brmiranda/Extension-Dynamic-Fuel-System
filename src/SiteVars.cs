@@ -25,7 +25,8 @@ namespace Landis.Extension.DynamicFuels
         private static ISiteVar<int> timeOfLastWind;
         private static ISiteVar<byte> windSeverity; 
         private static ISiteVar<Dictionary<int,int>> numberDeadFirCohorts;
-
+        private static ISiteVar<string> bdaSilkMothFuel;
+        private static ISiteVar<int> timeOfLastBDA;
         private static ISiteVar<ISiteCohorts> cohorts;
 
         //---------------------------------------------------------------------
@@ -50,12 +51,15 @@ namespace Landis.Extension.DynamicFuels
             timeOfLastWind          = PlugIn.ModelCore.GetSiteVar<int>("Wind.TimeOfLastEvent");
             windSeverity            = PlugIn.ModelCore.GetSiteVar<byte>("Wind.Severity");
             numberDeadFirCohorts    = PlugIn.ModelCore.GetSiteVar<Dictionary<int,int>>("BDA.NumCFSConifers");
+            bdaSilkMothFuel = PlugIn.ModelCore.GetSiteVar<string>("BDA.SilkMothFuel");
+            timeOfLastBDA = PlugIn.ModelCore.GetSiteVar<int>("BDA.TimeOfLastEvent");
 
             PlugIn.ModelCore.RegisterSiteVar(SiteVars.FuelType, "Fuels.CFSFuelType");
             PlugIn.ModelCore.RegisterSiteVar(SiteVars.DecidFuelType, "Fuels.DecidFuelType");
             PlugIn.ModelCore.RegisterSiteVar(SiteVars.PercentConifer, "Fuels.PercentConifer");
             PlugIn.ModelCore.RegisterSiteVar(SiteVars.PercentHardwood, "Fuels.PercentHardwood");
             PlugIn.ModelCore.RegisterSiteVar(SiteVars.PercentDeadFir, "Fuels.PercentDeadFir");
+            
         }
         public static void ReInitialize()
         {
@@ -68,7 +72,9 @@ namespace Landis.Extension.DynamicFuels
             windSeverity = PlugIn.ModelCore.GetSiteVar<byte>("Wind.Severity");
             //numberDeadFirCohorts = PlugIn.ModelCore.GetSiteVar<int[]>("BDA.NumCFSConifers");
             numberDeadFirCohorts = PlugIn.ModelCore.GetSiteVar<Dictionary<int,int>>("BDA.NumCFSConifers");
-           
+            bdaSilkMothFuel = PlugIn.ModelCore.GetSiteVar<string>("BDA.SilkMothFuel");
+            timeOfLastBDA = PlugIn.ModelCore.GetSiteVar<int>("BDA.TimeOfLastEvent");
+
         }
         //---------------------------------------------------------------------
 
@@ -123,6 +129,24 @@ namespace Landis.Extension.DynamicFuels
         {
             get {
                 return harvestPrescriptionName;
+            }
+        }
+        //---------------------------------------------------------------------
+
+        public static ISiteVar<string> BDASilkMothFuel
+        {
+            get
+            {
+                return bdaSilkMothFuel;
+            }
+        }
+        //---------------------------------------------------------------------
+
+        public static ISiteVar<int> TimeOfLastBDA
+        {
+            get
+            {
+                return timeOfLastBDA;
             }
         }
         //---------------------------------------------------------------------
